@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ProjectilePredictionTypes.generated.h"
+#include "PP_SimulationTypes.generated.h"
 
 USTRUCT()
 struct PROJECTILEPREDICTION_API FProjectileSimulationData

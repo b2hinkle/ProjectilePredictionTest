@@ -1,4 +1,4 @@
-#include "ProjectilePrediction/ProjectilePredictionTypes.h"
+#include "ProjectilePrediction/PP_SimulationTypes.h"
 
 FProjectileSimulationData::FProjectileSimulationData()
 {

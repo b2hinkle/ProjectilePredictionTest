@@ -33,5 +33,5 @@ private:
 	FProjectileSimulationData ProjectileSimulation = FProjectileSimulationData();
 
 	FVector Gravity = FVector(0, 0, -982.f); // TODO: Need to find good place to store this kinda stuff
-	float AirResistance = 300.f; // TODO: This is just some random made up value but we need to come up with a good number and also find a good place to store this with the gravity
+	float AirResistance = 300.f; // TODO: This is just some random made up value but we need to come up with a good number and also find a good place to store this along with Gravity
 };

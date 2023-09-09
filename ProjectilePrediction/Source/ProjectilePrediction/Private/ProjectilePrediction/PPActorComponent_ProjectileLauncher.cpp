@@ -30,7 +30,7 @@ void UPPActorComponent_ProjectileLauncher::TickComponent(float DeltaTime, ELevel
 
 		const FVector stepStart = ProjectileSimulation.Location;
 		const FVector traceEnd = ProjectileSimulation.Location + ProjectileSimulation.Velocity;
-		GetWorld()->LineTraceSingleByChannel(outHit, stepStart, traceEnd, traceChannel, collisionQueryParams); // TODO: How should we handle launch speed? Rn just treating it as a length.
+		GetWorld()->LineTraceSingleByChannel(outHit, stepStart, traceEnd, traceChannel, collisionQueryParams);
 
 		const FVector stepEnd = outHit.IsValidBlockingHit() ? outHit.ImpactPoint : traceEnd;
 		ProjectileSimulation.Location = stepEnd;

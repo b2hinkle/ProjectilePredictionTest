@@ -7,6 +7,9 @@ enc_temp_folder/* # Visual Studio debugging sometimes makes this folder
 # Visual Studio 2015 user specific files
 .vs/
 
+# Backup folder we don't want
+enc_temp_folder/
+
 # Compiled Object files
 *.slo
 *.lo

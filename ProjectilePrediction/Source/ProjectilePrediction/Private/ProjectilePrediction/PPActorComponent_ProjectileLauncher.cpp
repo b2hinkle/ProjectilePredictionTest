@@ -32,3 +32,10 @@ void UPPActorComponent_ProjectileLauncher::TickComponent(float DeltaTime, ELevel
 	// ...
 }
 
+void UPPActorComponent_ProjectileLauncher::LaunchProjectile()
+{
+	TObjectPtr<USceneComponent> projectile = NewObject<USceneComponent>();
+
+
+}
+

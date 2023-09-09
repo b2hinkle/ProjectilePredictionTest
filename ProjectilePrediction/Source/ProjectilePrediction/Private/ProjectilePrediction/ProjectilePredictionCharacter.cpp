@@ -76,6 +76,9 @@ void AProjectilePredictionCharacter::SetupPlayerInputComponent(UInputComponent* 
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AProjectilePredictionCharacter::Look);
+
+		// Shooting
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &AProjectilePredictionCharacter::Shoot);
 	}
 	else
 	{
@@ -108,6 +111,11 @@ void AProjectilePredictionCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AProjectilePredictionCharacter::Shoot()
+{
+	ProjectileLauncherComponent->LaunchProjectile();
 }
 
 void AProjectilePredictionCharacter::SetHasRifle(bool bNewHasRifle)

@@ -36,6 +36,6 @@ void UPPActorComponent_ProjectileLauncher::LaunchProjectile()
 {
 	TObjectPtr<USceneComponent> projectile = NewObject<USceneComponent>();
 
-
+	UE_LOG(LogTemp, Warning, TEXT("SHOT"));
 }
 

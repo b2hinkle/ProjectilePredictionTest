@@ -115,7 +115,10 @@ void AProjectilePredictionCharacter::Look(const FInputActionValue& Value)
 
 void AProjectilePredictionCharacter::Shoot()
 {
-	ProjectileLauncherComponent->LaunchProjectile();
+	const FVector launchLocation  = GetFirstPersonCameraComponent()->GetComponentLocation();
+	const FVector launchDirection = GetFirstPersonCameraComponent()->GetForwardVector();
+	const float   launchSpeed     = 500.f;
+	ProjectileLauncherComponent->LaunchProjectile(launchLocation, launchDirection, launchSpeed);
 }
 
 void AProjectilePredictionCharacter::SetHasRifle(bool bNewHasRifle)

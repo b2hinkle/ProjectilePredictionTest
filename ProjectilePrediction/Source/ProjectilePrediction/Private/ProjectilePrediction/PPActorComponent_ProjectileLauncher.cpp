@@ -32,10 +32,18 @@ void UPPActorComponent_ProjectileLauncher::TickComponent(float DeltaTime, ELevel
 	// ...
 }
 
-void UPPActorComponent_ProjectileLauncher::LaunchProjectile()
+void UPPActorComponent_ProjectileLauncher::LaunchProjectile(const FVector inLaunchLocation, const FVector inLaunchDirection, const float inLaunchSpeed)
 {
-	TObjectPtr<USceneComponent> projectile = NewObject<USceneComponent>();
+	ECollisionChannel traceChannel = ECollisionChannel::ECC_EngineTraceChannel1;
+	FCollisionQueryParams collisionQueryParams = FCollisionQueryParams();
+	collisionQueryParams.bTraceComplex = true;
+	collisionQueryParams.bDebugQuery   = true;
+	FHitResult outHit = FHitResult();
 
-	UE_LOG(LogTemp, Warning, TEXT("SHOT"));
+	const FVector startLocation = inLaunchLocation;
+	const FVector endLocation   = inLaunchLocation + (inLaunchDirection * inLaunchSpeed);
+
+	GetWorld()->LineTraceSingleByChannel(outHit, startLocation, endLocation, traceChannel, collisionQueryParams); // TODO: How should we handle launch speed? Rn just treating it as a length.
+	DrawDebugLine(GetWorld(), startLocation, endLocation, FColor(255, 0, 0), false, 5.f, 0);
 }
 

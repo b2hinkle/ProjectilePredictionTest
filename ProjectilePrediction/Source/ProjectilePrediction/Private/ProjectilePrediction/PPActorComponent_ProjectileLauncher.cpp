@@ -3,23 +3,15 @@
 
 #include "ProjectilePrediction/PPActorComponent_ProjectileLauncher.h"
 
-// Sets default values for this component's properties
 UPPActorComponent_ProjectileLauncher::UPPActorComponent_ProjectileLauncher()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
-// Called when the game starts
 void UPPActorComponent_ProjectileLauncher::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
 	
 }
 
@@ -29,21 +21,31 @@ void UPPActorComponent_ProjectileLauncher::TickComponent(float DeltaTime, ELevel
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if (ProjectileSimulation.IsValid())
+	{
+		ECollisionChannel traceChannel = ECollisionChannel::ECC_EngineTraceChannel1;
+		FCollisionQueryParams collisionQueryParams = FCollisionQueryParams();
+		collisionQueryParams.bTraceComplex = true;
+		FHitResult outHit = FHitResult();
+
+		const FVector stepStart = ProjectileSimulation.Location;
+		const FVector traceEnd = ProjectileSimulation.Location + ProjectileSimulation.Velocity;
+		GetWorld()->LineTraceSingleByChannel(outHit, stepStart, traceEnd, traceChannel, collisionQueryParams); // TODO: How should we handle launch speed? Rn just treating it as a length.
+
+		const FVector stepEnd = outHit.IsValidBlockingHit() ? outHit.ImpactPoint : traceEnd;
+		ProjectileSimulation.Location = stepEnd;
+		const FVector airResistanceVelocity = -ProjectileSimulation.Velocity.GetSafeNormal() * AirResistance;
+		ProjectileSimulation.Velocity += (Gravity + airResistanceVelocity) * DeltaTime;
+
+
+#if ENABLE_DRAW_DEBUG
+		DrawDebugLine(GetWorld(), stepStart, stepEnd, FColor::MakeRandomColor(), false, 5.f, 0);
+#endif
+	}
 }
 
 void UPPActorComponent_ProjectileLauncher::LaunchProjectile(const FVector inLaunchLocation, const FVector inLaunchDirection, const float inLaunchSpeed)
 {
-	ECollisionChannel traceChannel = ECollisionChannel::ECC_EngineTraceChannel1;
-	FCollisionQueryParams collisionQueryParams = FCollisionQueryParams();
-	collisionQueryParams.bTraceComplex = true;
-	collisionQueryParams.bDebugQuery   = true;
-	FHitResult outHit = FHitResult();
-
-	const FVector startLocation = inLaunchLocation;
-	const FVector endLocation   = inLaunchLocation + (inLaunchDirection * inLaunchSpeed);
-
-	GetWorld()->LineTraceSingleByChannel(outHit, startLocation, endLocation, traceChannel, collisionQueryParams); // TODO: How should we handle launch speed? Rn just treating it as a length.
-	DrawDebugLine(GetWorld(), startLocation, endLocation, FColor(255, 0, 0), false, 5.f, 0);
+	ProjectileSimulation = FProjectileSimulationData(inLaunchLocation, inLaunchDirection * inLaunchSpeed);
 }
 

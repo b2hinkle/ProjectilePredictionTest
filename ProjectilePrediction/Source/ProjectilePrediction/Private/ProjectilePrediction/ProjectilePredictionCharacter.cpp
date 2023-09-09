@@ -115,10 +115,17 @@ void AProjectilePredictionCharacter::Look(const FInputActionValue& Value)
 
 void AProjectilePredictionCharacter::Shoot()
 {
-	const FVector launchLocation  = GetFirstPersonCameraComponent()->GetComponentLocation();
-	const FVector launchDirection = GetFirstPersonCameraComponent()->GetForwardVector();
-	const float   launchSpeed     = 500.f;
-	ProjectileLauncherComponent->LaunchProjectile(launchLocation, launchDirection, launchSpeed);
+	if (TObjectPtr<APlayerController> playerController = Cast<APlayerController>(GetController()))
+	{
+		FVector  outCamLoc = FVector::ZeroVector;
+		FRotator outCamRot = FRotator::ZeroRotator;
+		playerController->PlayerCameraManager->GetCameraViewPoint(outCamLoc, outCamRot);
+
+		const FVector launchLocation  = outCamLoc;
+		const FVector launchDirection = outCamRot.Vector();
+		const float   launchSpeed     = 350.f;
+		ProjectileLauncherComponent->LaunchProjectile(launchLocation, launchDirection, launchSpeed);
+	}
 }
 
 void AProjectilePredictionCharacter::SetHasRifle(bool bNewHasRifle)

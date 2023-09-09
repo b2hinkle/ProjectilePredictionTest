@@ -11,6 +11,10 @@ struct PROJECTILEPREDICTION_API FProjectileSimulationData
 public:
 	FProjectileSimulationData();
 
+	FProjectileSimulationData(FVector inLocation, FVector inVelocity);
+
+	bool IsValid();
+
 	FVector Location = FVector::ZeroVector;
 
 	FVector Velocity = FVector::ZeroVector;

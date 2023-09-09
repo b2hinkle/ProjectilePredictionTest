@@ -2,7 +2,7 @@
 
 
 #include "TP_WeaponComponent.h"
-#include "ProjectilePredictionCharacter.h"
+#include "ProjectilePrediction/ProjectilePredictionCharacter.h"
 #include "ProjectilePredictionProjectile.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
